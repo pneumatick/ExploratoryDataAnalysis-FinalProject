@@ -8,11 +8,14 @@ if (!file.exists("FNEI_data.zip")) {
 # Read data
 NEI <- readRDS("summarySCC_PM25.rds")
 
+# Prepare data for plotting
+baltimore <- NEI[NEI$fips == "24510", ]
+
 # Create the plot
-with(NEI, boxplot(log10(Emissions) ~ year, xlab = "Years", ylab = "Log 10 of PM2.5 Emissions (in tons)"))
-title(main = "National Emissions")
+with(baltimore, boxplot(log10(Emissions) ~ year, xlab = "Years", ylab = "Log 10 of PM2.5 Emissions (in tons)"))
+title(main = "Total Emissions in Baltimore")
 par(bg = "white")
 
 # Export the plot as a PNG
-dev.copy(png, file = "plot1.png")
+dev.copy(png, file = "plot2.png")
 dev.off()
