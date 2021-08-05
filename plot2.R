@@ -12,7 +12,7 @@ NEI <- readRDS("summarySCC_PM25.rds")
 baltimore <- NEI[NEI$fips == "24510", ]
 
 # Create the plot
-with(baltimore, boxplot(log10(Emissions) ~ year, xlab = "Years", ylab = "Log 10 of PM2.5 Emissions (in tons)"))
+with(baltimore, plot(aggregate(Emissions, list(year), sum), xlab = "Years", ylab = "Total PM2.5 Emissions (in tons)", type = "b"))
 title(main = "Total Emissions in Baltimore")
 par(bg = "white")
 

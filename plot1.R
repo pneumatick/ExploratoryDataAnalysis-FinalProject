@@ -9,7 +9,7 @@ if (!file.exists("FNEI_data.zip")) {
 NEI <- readRDS("summarySCC_PM25.rds")
 
 # Create the plot
-with(NEI, boxplot(log10(Emissions) ~ year, xlab = "Years", ylab = "Log 10 of PM2.5 Emissions (in tons)"))
+with(NEI, plot(aggregate(Emissions, list(year), sum), xlab = "Years", ylab = "Total PM2.5 Emissions (in tons)", type = "b"))
 title(main = "National Emissions")
 par(bg = "white")
 

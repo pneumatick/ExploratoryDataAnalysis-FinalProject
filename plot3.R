@@ -14,8 +14,15 @@ NEI <- readRDS("summarySCC_PM25.rds")
 baltimore <- NEI[NEI$fips == "24510", ]
 
 # Create the plot
-plot <- ggplot(baltimore, aes(year, log10(Emissions), xlab = "Years")) 
-plot + geom_point(aes(color = factor(type), shape = factor(type)), size = 1) + labs(title = "Emissions from Different Source Types in Baltimore", x = "Years", y = "Log 10 of PM2.5 Emissions (in tons)")
+typeData <- with(baltimore, aggregate(Emissions, list(year, type), sum))
+plot <- with(typeData, qplot(Group.1, x, data = typeData, color = Group.2))
+plot +
+  geom_point(size = 1) +
+  geom_line(size = 1) +
+  labs(title = "Emissions from Different Source Types in Baltimore",
+       x = "Years",
+       y = "Total PM2.5 Emissions (in tons)") + 
+  guides(color=guide_legend(title="Type"))
 
 # Export the plot as a PNG
 dev.copy(png, file = "plot3.png")

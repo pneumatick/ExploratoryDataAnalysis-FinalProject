@@ -15,12 +15,15 @@ la <- NEI[NEI$fips == "06037", ]
 mobileSCC <- SCC[SCC$SCC.Level.One == "Mobile Sources", ]
 mobileBalt <- baltimore[mobileSCC$SCC %in% baltimore$SCC, ]
 mobileLA <- la[mobileSCC$SCC %in% la$SCC, ]
+mobileBaltData <- aggregate(mobileBalt$Emissions, list(mobileBalt$year), sum)
+mobileLAData <- aggregate(mobileLA$Emissions, list(mobileLA$year), sum)
+dataRange <- range(mobileBaltData, mobileLAData)
 
 # Create the plot
 par(bg = "white", mfrow = c(1, 2))
-with(mobileBalt, boxplot(log10(Emissions) ~ year, col = "blue", ylab = "Log10 of PM2.5 Emissions from Motor Vehicles (in tons)", xlab = "Years", ylim = c(-10, 4)))
-legend("bottomleft", legend = c("Baltimore", "Los Angeles"), pch = "l", col = c("blue", "red"))
-with(mobileLA, boxplot(log10(Emissions) ~ year, col = "red", ylab = "Log10 of PM2.5 Emissions from Motor Vehicles (in tons)", xlab = "Years", ylim = c(-10, 4)))
+with(mobileBalt, plot(mobileBaltData, col = "blue", ylab = "Total PM2.5 Emissions from Motor Vehicles (in tons)", xlab = "Years", ylim = dataRange, type = "b"))
+legend("topleft", legend = c("Baltimore", "Los Angeles"), pch = "l", col = c("blue", "red"))
+with(mobileLA, plot(mobileLAData, col = "red", ylab = "Total PM2.5 Emissions from Motor Vehicles (in tons)", xlab = "Years", ylim = dataRange, type = "b"))
 
 # Export the plot as a PNG
 dev.copy(png, file = "plot6.png")

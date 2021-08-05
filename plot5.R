@@ -15,7 +15,7 @@ mobileSCC <- SCC[SCC$SCC.Level.One == "Mobile Sources", ]
 mobileBalt <- baltimore[mobileSCC$SCC %in% baltimore$SCC, ]
 
 # Create the plot
-with(mobileBalt, boxplot(log10(Emissions) ~ year, xlab = "Years", ylab = "Log 10 of PM2.5 Emissions from Motor Vehicles (in tons)"))
+with(mobileBalt, plot(aggregate(Emissions, list(year), sum), xlab = "Years", ylab = "Total PM2.5 Emissions from Motor Vehicles (in tons)", type = "b"))
 title(main = "Emissions from Motor Vehicle Sources in Baltimore")
 par(bg = "white")
 

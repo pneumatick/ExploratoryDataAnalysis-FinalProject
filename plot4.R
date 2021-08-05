@@ -15,7 +15,7 @@ coalCombSCC <- combSCC[grep("Coal", SCC$Short.Name), ]
 coalComb <- NEI[coalCombSCC$SCC %in% NEI$SCC, ]
 
 # Create the plot
-with(coalComb, boxplot(log10(Emissions) ~ year, xlab = "Years", ylab = "Log 10 of PM2.5 Emissions (in tons)"))
+with(coalComb, plot(aggregate(Emissions, list(year), sum), xlab = "Years", ylab = "Total PM2.5 Emissions (in tons)", type = "b"))
 title(main = "National Emissions from Coal Combustion Sources")
 par(bg = "white")
 
